@@ -14,11 +14,16 @@ const Header = () => {
   return (
     <div className="flex min-h-16 justify-between sticky top-0 z-50 shadow-xl  text-white text-lg bg-rose-400 sm:max-h-24  sm:w-full md:w-full ">
       <div className="logo-container">
-        {/* <img className="w-[96px] xl:w-[96px] " src={logo} /> */}
+        <img
+          className=" ml-1 mt-1  w-[65px] xl:w-[65px] "
+          src={
+            "https://res.cloudinary.com/cloudimagestore-/image/upload/f_auto,q_auto/v1/Assets/n4ib35lo32o8p7hxizrm"
+          }
+        />
       </div>
 
       <div className="flex items-center">
-        <ul className="flex p-4 m-4">
+        <ul className="flex m-4">
           <li className="m-2 px-6">online : {onlineStatus ? "✅" : "🔴"}</li>
 
           <li className="  px-6 hover:bg-yellow-200  pt-2 rounded-full hover:text-black hover:cursor-pointer hover:transition duration-300 ">

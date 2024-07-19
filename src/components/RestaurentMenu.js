@@ -23,7 +23,18 @@ const RestaurentMenu = () => {
 
   //fetch data custome hooks me lekr chale gye
 
-  if (ResInfo === null) return <Shimmer />;
+  if (ResInfo === null)
+    return (
+      <>
+        <div className="w-full flex justify-center items-center min-h-screen">
+          <img
+            className="w-full max-w-xs object-contain"
+            alt="loading"
+            src="https://res.cloudinary.com/cloudimagestore-/image/upload/v1719550274/Assets/delivery_boy_j0u0qo.gif"
+          />
+        </div>
+      </>
+    );
   const {
     name,
     cuisines,
@@ -60,7 +71,7 @@ const RestaurentMenu = () => {
 
   return (
     <div className="border border-t-black  w-full text-center pt-5 ">
-      <div className="hidden  text-black  xl:flex justify-between min-h-[100]  mt-7 ml-[350px] w-[780] ">
+      <div className="  text-black  xl:flex min-h-[120] flex items-center justify-center ">
         <div className=" flex-col">
           {/* <h1 className="font-bold my-6 text-2xl">{name}</h1> */}
           {/* //this code is done bt me */}
@@ -84,21 +95,22 @@ const RestaurentMenu = () => {
             <FaHandPointRight className="text-2xl text-red-700 m-2" />
             {totalRatingsString}
           </h3>
+          <div className=" ">
+            <h2 className=" flex ">
+              <MdOutlineDeliveryDining className="mt-[6] mr-[8px]" />
+              {sla?.deliveryTime} mins{" "}
+            </h2>
+            <h3 className=" flex font-bold text-lg    ">
+              <HiCurrencyRupee className="mt-[6] h-[14] mr-[6]" />
+              {costForTwo / 100} {" for Two"}
+            </h3>
+          </div>
           {/* total rating */}
         </div>
       </div>
-      <div className="hidden  text-black  xl:flex justify-between mt-7 ml-[350px] w-[780]">
-        <div className=" absolute top-[294px] flex-col  pl-3 ">
-          <h2 className=" flex ">
-            <MdOutlineDeliveryDining className="mt-[6] mr-[8px]" />
-            {sla?.deliveryTime} mins{" "}
-          </h2>
-          <h3 className=" flex font-bold text-lg    ">
-            <HiCurrencyRupee className="mt-[6] h-[14] mr-[6]" />
-            {costForTwo / 100} {" for Two"}
-          </h3>
-        </div>
-      </div>
+      {/* <div className="hidden  text-black  xl:flex justify-between mt-7 ml-[350px] w-[780]">
+     
+      </div> */}
 
       {/* <ul>
                 {categories&&categories.map((item) => {

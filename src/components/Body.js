@@ -42,7 +42,7 @@ const Body = () => {
     <Shimmer />
   ) : (
     <>
-      <div className="  mb-[200px] ml-[80px]  ">
+      <div className="  mb-[200px] ">
         <div className="pt-[60] xl:mr-[68] border-b-2 border-b-slate-300 xl:pt-0  xl:ml-30 xl:pb-2">
           <div className="filter flex mb-5 ">
             <div className=" m-4 p-4">
@@ -134,7 +134,7 @@ const Body = () => {
         </div>
         {/* <div className=" absolute top-[195px] border-t border-gray-500 min-h-px w-[1330px]  "></div> */}
         {/* <div className="pt-[65] xl:mr-[98] border-b-2 border-b-slate-300 xl:pt-0  xl:ml-[99px] xl:pb-2"></div> */}
-        <div className=" flex flex-wrap">
+        <div className="gridui">
           {filteredRestaurent.map((restaurent) => (
             <Link
               key={restaurent.info.id}

@@ -6,9 +6,6 @@ import About from "./components/About";
 import Contact from "./components/ContactUs";
 import Error from "./components/Error";
 import RestaurentMenu from "./components/RestaurentMenu";
-
-import { Container } from "postcss";
-
 import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
@@ -16,16 +13,12 @@ import Cart from "./components/Cart";
 import LogIn from "./components/LogIn";
 import Footer from "./components/Footer";
 
-
 const AppLayOut = () => {
   return (
     <Provider store={appStore}>
-     
-        <Header />
-        {/* <Body/> */}
-        <Outlet />
-        <Footer />
-     
+      <Header />
+      <Outlet />
+      <Footer />
     </Provider>
   );
 };
@@ -65,5 +58,4 @@ const approuter = createBrowserRouter([
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-// root.render(<AppLayOut/>);
 root.render(<RouterProvider router={approuter} />);
