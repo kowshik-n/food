@@ -1,0 +1,1 @@
+for error we will use in-built comoponent in react known as a useRouterError 
