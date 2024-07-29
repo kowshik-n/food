@@ -4,145 +4,161 @@ import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 
 const Body = () => {
-  const [listOfRestaurent, setlistOfRestaurent] = useState([]);
-  const [filteredRestaurent, setfilterRestaurent] = useState([]);
-  const [searchText, setsearchText] = useState([]);
-  // const handleScroll = () =>{
-  //     scroller.scrollTo('res-list',{
-  //       smooth:true,
-  //       duration: 560,
-  //       offset : -170
-  //     })
-  //   }
+  const [listOfRestaurent, setListOfRestaurent] = useState([]);
+  const [filteredRestaurent, setFilterRestaurent] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSorting, setIsSorting] = useState(false);
+  const [menuTab, setMenuTab] = useState("Top rated Restaurant");
 
-  // for fetching api
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
-    const data = await fetch(
+    setIsLoading(true);
+    const response = await fetch(
       "https://cors-handlers.vercel.app/api/?url=https%3A%2F%2Fwww.swiggy.com%2Fdapi%2Frestaurants%2Flist%2Fv5%3Flat%3D11.01420%26lng%3D76.99410%26is-seo-homepage-enabled%3Dtrue%26page_type%3DDESKTOP_WEB_LISTING"
     );
-
-    //   "https://cors-handlers.vercel.app/api/?url=https%3A%2F%2Fwww.swiggy.com%2Fdapi%2Frestaurants%2Flist%2Fv5%3Flat%3D11.01420%26lng%3D76.99410%26is-seo-homepage-enabled%3Dtrue%26page_type%3DDESKTOP_WEB_LISTING"
-    const json = await data.json();
-    console.log(json);
-    setlistOfRestaurent(
-      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
-
-    setfilterRestaurent(
-      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    );
+    const data = await response.json();
+    const restaurants =
+      data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+        ?.restaurants;
+    setListOfRestaurent(restaurants);
+    setFilterRestaurent(restaurants);
+    setIsLoading(false);
   };
-  console.log(filteredRestaurent);
 
-  return listOfRestaurent?.length === 0 ? (
-    <Shimmer />
-  ) : (
+  const handleSearch = () => {
+    const filteredList = listOfRestaurent.filter((res) =>
+      res.info.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setFilterRestaurent(filteredList);
+  };
+
+  const handleSort = (sortFunction, tabName) => {
+    setIsSorting(true);
+    const sortedList = [...listOfRestaurent].sort(sortFunction);
+    setFilterRestaurent(sortedList);
+    setMenuTab(tabName);
+    setIsSorting(false);
+  };
+
+  const sortByRating = (a, b) => b.info.avgRating - a.info.avgRating;
+  const sortByDistance = (a, b) =>
+    a.info.sla.lastMileTravel - b.info.sla.lastMileTravel;
+  const sortByCostHighToLow = (a, b) =>
+    Number(b.info.costForTwo.substr(1)) - Number(a.info.costForTwo.substr(1));
+  const sortByDeliveryTime = (a, b) =>
+    a.info.sla.lastMileTravel - b.info.sla.lastMileTravel;
+
+  if (isLoading) {
+    return <Shimmer />;
+  }
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+  return (
     <>
-      <div className="  mb-[200px] ">
-        <div className="pt-[60] xl:mr-[68] border-b-2 border-b-slate-300 xl:pt-0  xl:ml-30 xl:pb-2">
-          <div className="filter flex mb-5 ">
-            <div className=" m-4 p-4">
-              <input
-                type="text"
-                className="border border-solid ml-6 border-gray-400 py-2 pl-3 pr-16 rounded-2xl rounded-r-none bg-white sm:ml-[170] md:ml-[90]  lg:ml-[40] xl:ml-0"
-                placeholder="Enter your restaurent"
-                value={searchText}
-                onChange={(e) => {
-                  setsearchText(e.target.value);
-                }}
-              />
+      <div className="">
+        <div className="">
+          <div className="">
+            <div className="">
+              <section className="header-banner h-96 w-full bg-yellow-50">
+                <div className="flex flex-col items-center justify-center h-full">
+                  <h1 className="text-center text-3xl md:text-4xl lg:text-5xl poppins font-semibold text-gray-700">
+                    Best food waiting for your belly
+                  </h1>
 
-              <button
-                className="border border-solid  border-gray-400 py-2 pl-3 pr-4 rounded-2xl rounded-l-none bg-white sm:ml-[170] md:ml-[90]  lg:ml-[40] xl:ml-0"
-                onClick={() => {
-                  console.log(searchText);
-
-                  //for display on the ui we have to filtered the res...
-                  const filteredRestaurant = listOfRestaurent.filter((res) =>
-                    res?.info?.name
-                      .toLowerCase()
-                      .includes(searchText.toLowerCase())
-                  );
-                  setfilterRestaurent(filteredRestaurant);
-                }}
-              >
-                search
-              </button>
+                  <div className="rounded-full p-1 box-border mt-8 bg-white overflow-hidden ring-red-300 focus:ring-4 w-96 flex items-center">
+                    <input
+                      type="text"
+                      className="rounded-full px-4 focus:outline-none w-full bg-transparent"
+                      placeholder="Enter your restaurant"
+                      value={searchText}
+                      onChange={(e) => setSearchText(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                    />
+                    <button
+                      className="bg-red-500 text-sm bg-primary py-3 px-6 rounded-full text-white poppins ring-red-300 focus:ring-4 transition duration-300 hover:scale-105 transform"
+                      onClick={handleSearch}
+                    >
+                      Search
+                    </button>
+                  </div>
+                </div>
+              </section>
             </div>
 
-            <div className="search  flex items-center">
-              <button
-                className="  px-4 py-2  mr-2 ml-[100px]  bg-orange-500 text-white xl:bg-white rounded-full xl:hover:bg-orange-500 xl:hover:text-white xl:text-black  md:mb-0 sm:ml-[222] md:ml-[60] lg:ml-[390] xl:ml-[2]"
-                onClick={() => {
-                  const filteredList = listOfRestaurent.filter(
-                    (res) => res.info.avgRating > 4
-                  );
-                  // setlistOfRestaurent(filteredList);
-                  setfilterRestaurent(filteredList);
-                }}
-              >
-                Top rated Resturet
-              </button>
-
-              <button
-                className=" hidden xl:block  px-4 py-2  mx-2 xl:ml-[40] xl:-mt-[5] bg-white rounded-full hover:bg-orange-500 hover:text-white"
-                onClick={() => {
-                  let sortedlist = [...listOfRestaurent];
-                  listOfRestaurent.sort(
-                    (a, b) =>
-                      a.info.sla.lastMileTravel - b.info.sla.lastMileTravel
-                  );
-                  setfilterRestaurent(sortedlist);
-                }}
-              >
-                Nearest Restaurent
-              </button>
-              <button
-                className="   hidden xl:block px-4 py-2 mx-2 xl:ml-[80] xl:-mt-[10] bg-white rounded-full hover:bg-orange-500 hover:text-white"
-                onClick={() => {
-                  let sortedlist = [...listOfRestaurent];
-                  listOfRestaurent.sort(
-                    (a, b) =>
-                      Number(b.info.costForTwo.substr(1, 3)) -
-                      Number(a.info.costForTwo.substr(1, 3))
-                  );
-                  setfilterRestaurent(sortedlist);
-                }}
-              >
-                Cost:High to Low
-              </button>
-              <button
-                className="  hidden xl:block px-4 py-2 mx-2 xl:ml-[80px] xl:-mt-[09px] bg-white rounded-full hover:bg-orange-500 hover:text-white"
-                onClick={() => {
-                  let sortedlist = [...listOfRestaurent];
-                  listOfRestaurent.sort(
-                    (a, b) =>
-                      a.info.sla.lastMileTravel - b.info.sla.lastMileTravel
-                  );
-                  setfilterRestaurent(sortedlist);
-                }}
-              >
-                Delivery Time
-              </button>
-              {/* fksfsffkjs */}
+            <div className="my-12 max-w-screen-xl mx-auto px-6">
+              <div className="flex items-center justify-center space-x-6">
+                <p
+                  className={
+                    menuTab === "Top rated Restaurant"
+                      ? "active_menu_tab poppins bg-primary"
+                      : "menu_tab poppins"
+                  }
+                  onClick={() =>
+                    handleSort(sortByRating, "Top rated Restaurant")
+                  }
+                >
+                  Top rated Restaurant
+                </p>
+                <p
+                  className={
+                    menuTab === "Nearest Restaurant"
+                      ? "active_menu_tab poppins bg-primary"
+                      : "menu_tab poppins"
+                  }
+                  onClick={() =>
+                    handleSort(sortByDistance, "Nearest Restaurant")
+                  }
+                >
+                  Nearest Restaurant
+                </p>
+                <p
+                  className={
+                    menuTab === "Cost:High to Low"
+                      ? "active_menu_tab poppins bg-primary"
+                      : "menu_tab poppins"
+                  }
+                  onClick={() =>
+                    handleSort(sortByCostHighToLow, "Cost:High to Low")
+                  }
+                >
+                  Cost:High to Low
+                </p>
+                <p
+                  className={
+                    menuTab === "Delivery Time"
+                      ? "active_menu_tab poppins bg-primary"
+                      : "menu_tab poppins"
+                  }
+                  onClick={() =>
+                    handleSort(sortByDeliveryTime, "Delivery Time")
+                  }
+                >
+                  Delivery Time
+                </p>
+              </div>
             </div>
           </div>
         </div>
-        {/* <div className=" absolute top-[195px] border-t border-gray-500 min-h-px w-[1330px]  "></div> */}
-        {/* <div className="pt-[65] xl:mr-[98] border-b-2 border-b-slate-300 xl:pt-0  xl:ml-[99px] xl:pb-2"></div> */}
         <div className="gridui">
-          {filteredRestaurent.map((restaurent) => (
-            <Link
-              key={restaurent.info.id}
-              to={"/restaurant/" + restaurent.info.id}
-            >
-              <RestaurentCard resData={restaurent} />
-            </Link>
-          ))}
+          {isSorting ? (
+            <Shimmer />
+          ) : (
+            filteredRestaurent.map((restaurant) => (
+              <Link
+                key={restaurant.info.id}
+                to={"/restaurant/" + restaurant.info.id}
+              >
+                <RestaurentCard resData={restaurant} />
+              </Link>
+            ))
+          )}
         </div>
       </div>
     </>
