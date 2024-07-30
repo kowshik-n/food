@@ -1,35 +1,43 @@
 import { CDN_URL } from "../utils/constents";
 
-
-
 const RestaurentCard = (props) => {
-    const { resData } = props;
-    // console.log(props);
-    const { info, cloudinaryImageId, name, cuisines, costForTwo, avgRating,sla,
-        deliveryTime,
-        lastMileTravelString } = resData?.info;
+  const { resData } = props;
+  const {
+    info,
+    cloudinaryImageId,
+    name,
+    cuisines,
+    costForTwo,
+    avgRating,
+    sla,
+  } = resData?.info;
 
-    return (
-        <div className="m-4 p-4   h-[370px] w-[300px] shadow-xl
-        text-rose-800  bg-white rounded-md hover:shadow-amber-500  cursor-pointer transition ease-in-out delay-50 hover:scale-105 duration-100">
-            <img className="w-[270px] h-[170px] rounded-lg" src={CDN_URL + cloudinaryImageId} />
-
-            <h3 className="font-bold pt-2 pb-1 text-xl line-clamp-1">{name}</h3>
-            <h3 className="mb-4 tracking-wide truncate">{cuisines.join(" , ")}</h3>
-            <div className="flex justify-between">
-                <h3 style={
-                    avgRating < 4
-                    ? { backgroundColor: "#ad0000" }
-                    : { backgroundColor: "#00ad0e" }
-                }
-                    className="p-2 mb-4 text-white font-bold rounded-md flex items-center gap-2"
-                > {avgRating}</h3>
-                <h4 className="mt-2 ml-5 font-bold">{sla.lastMileTravelString}</h4>
-                <h3 className="mt-2 ml-5 font-bold">{sla.deliveryTime} <span>Min..</span> </h3>
-            </div>    
-            <h3 className="font-bold">{costForTwo}  </h3> 
-           
+  return (
+    <div className="relative m-2 p-4 bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105">
+      <img
+        className="w-full h-40 object-cover rounded-lg"
+        src={CDN_URL + cloudinaryImageId}
+        alt={name}
+      />
+      <div className="mt-4">
+        <h3 className="font-bold text-xl text-rose-800 truncate">{name}</h3>
+        <p className="text-sm text-gray-600 truncate">{cuisines.join(", ")}</p>
+        <div className="flex items-center justify-between mt-2">
+          <span
+            className={`p-2 text-white font-bold rounded-md ${
+              avgRating < 4 ? "bg-red-600" : "bg-green-600"
+            }`}
+          >
+            {avgRating}
+          </span>
+          <div className="text-sm text-gray-600">
+            <p>{sla.lastMileTravelString}</p>
+            <p>{sla.deliveryTime} min</p>
+          </div>
         </div>
-    );
+        <h4 className="font-bold text-lg text-gray-800 mt-2">{costForTwo}</h4>
+      </div>
+    </div>
+  );
 };
 export default RestaurentCard;

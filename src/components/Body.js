@@ -146,18 +146,20 @@ const Body = () => {
             </div>
           </div>
         </div>
-        <div className="gridui">
+        <div className="p-4">
           {isSorting ? (
             <Shimmer />
           ) : (
-            filteredRestaurent.map((restaurant) => (
-              <Link
-                key={restaurant.info.id}
-                to={"/restaurant/" + restaurant.info.id}
-              >
-                <RestaurentCard resData={restaurant} />
-              </Link>
-            ))
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {filteredRestaurent.map((restaurant) => (
+                <Link
+                  key={restaurant.info.id}
+                  to={"/restaurant/" + restaurant.info.id}
+                >
+                  <RestaurentCard resData={restaurant} />
+                </Link>
+              ))}
+            </div>
           )}
         </div>
       </div>

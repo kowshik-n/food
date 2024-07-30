@@ -1,28 +1,33 @@
-const Shimmer =()=>{
-    return (
-        <div className="bg-white pt-3">
-      <div className="p-3 w-[100%px] h-14 md:h-20 bg-slate-400 rounded-md animate-pulse m-4"></div>
-      <div className="flex flex-wrap justify-center items-center m-4">
-        {Array(12)
-          .fill("")
-          .map((e, index) => (
-            <div
-              key={index}
-              className="flex flex-wrap m-4 p-4 h-[350px] w-[300px] shadow-lg
-                bg-white rounded-md"
-            >
-              <div className="w-[300px] h-[180px] bg-slate-400  animate-pulse rounded-md"></div>
-              <h3 className="w-full h-6 bg-slate-500 my-3 rounded-md"></h3>
-              <h4 className="w-3/4 h-8 bg-slate-400 rounded-md"></h4>
-              <div className="w-full mt-4 mb-2 h-8 grid grid-cols-3 gap-4">
-                <div className="h-6 bg-slate-500 rounded col-span-1"></div>
-                <div className="h-6 bg-slate-500 rounded col-span-1"></div>
-                <div className="h-6 bg-slate-500 rounded col-span-1"></div>
-              </div>
-            </div>
-          ))}
+import React from "react";
+import "./shimmer.css"; // Import the custom CSS for shimmer effect
+
+const Shimmer = () => {
+  return (
+    <>
+      {/* Shimmer Effect for Header Banner */}
+      <div className="shimmer-header-banner">
+        <div className="shimmer-header-text"></div>
+        <div className="shimmer-header-input">
+          <div className="shimmer-input"></div>
+          <div className="shimmer-button"></div>
+        </div>
       </div>
-    </div>
+
+      {/* Shimmer Effect for Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+        {Array.from({ length: 12 }).map((_, index) => (
+          <div key={index} className="shimmer-card">
+            <div className="shimmer-image"></div>
+            <div className="shimmer-text">
+              <div className="shimmer-line shimmer-line-title"></div>
+              <div className="shimmer-line shimmer-line-subtitle"></div>
+              <div className="shimmer-line shimmer-line-small"></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
   );
 };
+
 export default Shimmer;

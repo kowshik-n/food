@@ -1,0 +1,75 @@
+/* shimmer.css */
+
+/* Header Banner Shimmer Effect */
+.shimmer-header-banner {
+  @apply h-96 w-full bg-gray-200 rounded-lg relative overflow-hidden;
+}
+
+.shimmer-header-text {
+  @apply w-3/4 h-10 bg-gray-300 rounded-lg mx-auto my-12;
+}
+
+.shimmer-header-input {
+  @apply flex flex-col items-center gap-4;
+}
+
+.shimmer-input {
+  @apply w-96 h-12 bg-gray-300 rounded-full;
+}
+
+.shimmer-button {
+  @apply w-40 h-12 bg-gray-300 rounded-full;
+}
+
+/* Card styling */
+.shimmer-card {
+  @apply bg-white rounded-lg shadow-md overflow-hidden relative;
+  width: 100%;
+  max-width: 300px; /* Maximum width for larger screens */
+  height: 370px; /* Adjust height as needed */
+}
+
+/* Image placeholder */
+.shimmer-image {
+  @apply bg-gray-200;
+  height: 170px; /* Adjust as needed */
+  width: 100%;
+}
+
+/* Text placeholders */
+.shimmer-text {
+  @apply p-4;
+}
+
+.shimmer-line {
+  @apply bg-gray-200 rounded-md;
+  margin-bottom: 8px; /* Adjust spacing between lines */
+}
+
+.shimmer-line-title {
+  @apply w-3/5 h-5;
+}
+
+.shimmer-line-subtitle {
+  @apply w-4/5 h-4;
+}
+
+.shimmer-line-small {
+  @apply w-2/5 h-3;
+}
+
+/* Shimmer animation */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer-card::before {
+  content: "";
+  @apply absolute inset-0 bg-gradient-to-r from-transparent via-gray-300 to-transparent;
+  animation: shimmer 1.5s infinite;
+}
